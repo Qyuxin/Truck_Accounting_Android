@@ -1,0 +1,183 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!-- 顶部标题文字 -->
+    <style name="top_title_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">58dp</item>
+        <item name="android:layout_alignParentTop">true</item>
+        <item name="android:background">@color/top_bg</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/mainBlue</item>
+        <item name="android:textSize">21dp</item>
+    </style>
+
+
+    <!-- 通用MaterialEditText Style -->
+    <style name="materialEtStyle">
+        <item name="com.xin.hcjz:met_baseColor">@color/et_textColor</item>
+        <item name="com.xin.hcjz:met_primaryColor">@color/et_underlineColor</item>
+        <item name="com.xin.hcjz:met_singleLineEllipsis">true</item>
+    </style>
+
+
+    <!-- 表格 -->
+    <!-- 表格中前面标题字体 -->
+    <style name="data_title_font">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/tv_data_title</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+    <!-- 表格EditText -->
+    <style name="data_et_value">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_weight">2</item>
+        <item name="android:textSize">20dp</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+    <!-- 表格分隔大标题文字 -->
+    <style name="data_spilt_txt">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/spilt_txt_color</item>
+        <item name="android:textSize">25dp</item>
+    </style>
+    <!-- 表格中MaterialEditText Style -->
+    <style name="materialEtStyle_Data" parent="materialEtStyle">
+        <item name="android:layout_weight">2</item>
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:textColor">@color/et_textColor</item>
+        <item name="android:lines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="com.xin.hcjz:met_singleLineEllipsis">false</item>
+    </style>
+    <!-- 表格中普通的MaterialEditText Style -->
+    <style name="materialEtStyle_Data_Common" parent="materialEtStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">17dp</item>
+        <item name="android:textColor">@color/et_textColor</item>
+        <item name="android:lines">1</item>
+        <item name="android:inputType">text</item>
+        <item name="com.xin.hcjz:met_singleLineEllipsis">false</item>
+    </style>
+    <!-- 表格中MaterialEditText 只可点击单项选择 -->
+    <style name="materialEtStyle_Data_Click" parent="materialEtStyle_Data">
+        <item name="android:focusable">false</item>
+        <item name="android:text">@string/optionSelect_pleaseSelect</item>
+    </style>
+    <!-- 表格中左右结构radioGroup Style -->
+    <style name="data_radioGroup_zy">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">50dp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <!-- 表格中左右结构radioButton Style -->
+    <style name="data_radioButton_zy">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/tv_data_title</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textSize">17dp</item>
+    </style>.
+    <!-- 表格右侧整体布局LinearLayout -->
+    <style name="data_right_content_ll">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">2</item>
+    </style>
+
+    <!-- 主页 -->
+    <!-- 栏目整体 -->
+    <style name="index_program_ll_all">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <!-- 栏目标题整体LinearLayout -->
+    <style name="index_program_ll_title">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">25dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+    </style>
+    <!-- 栏目标题左侧色块 -->
+    <style name="index_program_title_left_view">
+        <item name="android:layout_width">5dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:background">@color/mainBlue</item>
+    </style>
+    <!-- 栏目标题字体TextView -->
+    <style name="index_program_title_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:textColor">@color/index_text_color</item>
+        <item name="android:textSize">15dp</item>
+    </style>
+    <!-- 栏目底部分割线 -->
+    <style name="index_program_title_bottom_view">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">@color/index_bg_color</item>
+    </style>
+    <!-- 栏目上下结构图片 -->
+    <style name="index_program_content_topbottom_image">
+        <item name="android:layout_width">40dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_marginTop">15dp</item>
+    </style>
+    <!-- 栏目上下结构文字 -->
+    <style name="index_program_content_topbottom_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:textColor">@color/index_text_color</item>
+        <item name="android:textSize">18dp</item>
+    </style>
+
+    <style name="personal_line">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:layout_marginLeft">55dp</item>
+        <item name="android:background">@color/lineColor</item>
+    </style>
+
+    <style name="Data_SmoothCheckBox_Common">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">10dp</item>
+        <item name="android:textColor">@color/mainBlue</item>
+        <item name="android:tint">@color/mainBlue</item>
+    </style>
+
+    <!-- 个人中心页 -->
+
+
+
+
+</resources>

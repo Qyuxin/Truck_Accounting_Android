@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/root_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include layout="@layout/part_top" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/data_title_font"
+                    android:text="厂名/甲方" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_com"
+                    style="@style/materialEtStyle_Data"
+                    android:hint="必填"
+                    android:text="" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/data_title_font"
+                    android:text="开始地址" />
+
+                <LinearLayout style="@style/data_right_content_ll">
+
+                    <com.rengwuxian.materialedittext.MaterialEditText
+                        android:id="@+id/et_start"
+                        style="@style/materialEtStyle_Data"
+                        android:hint="必填"
+                        android:text="" />
+
+                    <Button
+                        android:id="@+id/btn_searchEndByStart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:background="#00000000"
+                        android:textColor="@color/tv_data_title"
+                        android:textSize="17dp"
+                        android:text="搜索"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/tv_title_end"
+                    style="@style/data_title_font"
+                    android:clickable="true"
+                    android:text="结束地址" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_end"
+                    style="@style/materialEtStyle_Data"
+                    android:hint="必填"
+                    android:text=""
+                    android:visibility="gone" />
+
+                <LinearLayout style="@style/data_right_content_ll"
+                    android:id="@+id/ll_end_sp">
+
+                    <org.angmarch.views.NiceSpinner
+                        android:id="@+id/sp_end"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="请选择起点"
+                        android:textSize="17dp"
+                        app:textTint="@color/et_textColor" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/data_title_font"
+                    android:text="送货时间" />
+
+
+                <LinearLayout
+                    style="@style/data_right_content_ll"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <org.angmarch.views.NiceSpinner
+                            android:id="@+id/sp_year"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="0dp"
+                            android:text="2018"
+                            android:textSize="17dp"
+                            app:textTint="@color/et_textColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="年"
+                            android:textColor="@color/gray_btn_bg_pressed_color"
+                            android:textSize="20dp" />
+
+                        <org.angmarch.views.NiceSpinner
+                            android:id="@+id/sp_month"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="02"
+                            android:textSize="17dp"
+                            app:textTint="@color/et_textColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="月"
+                            android:textColor="@color/gray_btn_bg_pressed_color"
+                            android:textSize="20dp" />
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <org.angmarch.views.NiceSpinner
+                            android:id="@+id/sp_day"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="28"
+                            android:textSize="17dp"
+                            app:textTint="@color/et_textColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="日"
+                            android:textColor="@color/gray_btn_bg_pressed_color"
+                            android:textSize="20dp" />
+
+                        <org.angmarch.views.NiceSpinner
+                            android:id="@+id/sp_period"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="上午"
+                            android:textSize="17dp"
+                            app:textTint="@color/et_textColor" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="月"
+                            android:textColor="@color/gray_btn_bg_pressed_color"
+                            android:textSize="20dp"
+                            android:visibility="invisible" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/data_title_font"
+                    android:text="派车理由" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_desc"
+                    style="@style/materialEtStyle_Data"
+                    android:hint="选填"
+                    android:text="" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    style="@style/data_title_font"
+                    android:text="是否上下货" />
+
+                <LinearLayout style="@style/data_right_content_ll">
+
+                    <RadioGroup
+                        android:id="@+id/rg_updown"
+                        style="@style/data_radioGroup_zy">
+
+                        <RadioButton
+                            android:id="@+id/rb_updown_no"
+                            style="@style/data_radioButton_zy"
+                            android:checked="true"
+                            android:text="否" />
+
+                        <RadioButton
+                            android:id="@+id/rb_updown_yes"
+                            style="@style/data_radioButton_zy"
+                            android:text="是" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/data_title_font"
+                    android:text="送货价格" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_price"
+                    style="@style/materialEtStyle_Data"
+                    android:hint="必填"
+                    android:text="" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/textView3"
+                    style="@style/data_title_font"
+                    android:text="有无票据" />
+
+                <LinearLayout style="@style/data_right_content_ll">
+
+                    <RadioGroup
+                        android:id="@+id/rg_havenumber"
+                        style="@style/data_radioGroup_zy">
+
+                        <RadioButton
+                            android:id="@+id/rb_havenumber_no"
+                            style="@style/data_radioButton_zy"
+                            android:checked="true"
+                            android:text="无" />
+
+                        <RadioButton
+                            android:id="@+id/rb_havenumber_yes"
+                            style="@style/data_radioButton_zy"
+                            android:text="有" />
+
+                    </RadioGroup>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    style="@style/data_title_font"
+                    android:text="票据单号" />
+
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/et_orderNumber"
+                    style="@style/materialEtStyle_Data"
+                    android:text="" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </ScrollView>
+
+
+</LinearLayout>

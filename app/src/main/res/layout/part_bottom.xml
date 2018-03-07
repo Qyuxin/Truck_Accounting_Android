@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:layout_gravity="bottom"
+            android:background="#ffffff"
+            android:gravity="bottom">
+
+            <LinearLayout
+                android:id="@+id/ll_bottom_jz"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/ib_jz"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:layout_weight="0.4"
+                    android:background="#00000000"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/bottom_index_icon_unchecked" />
+
+                <TextView
+                    android:id="@+id/tv_jz"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="记账"
+                    android:textColor="#555555" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ll_bottom_tj"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/ib_tj"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:layout_weight="0.4"
+                    android:background="#00000000"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/bottom_alarm_icon_unchecked" />
+
+                <TextView
+                    android:id="@+id/tv_tj"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="统计"
+                    android:textColor="#555555" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:id="@+id/ll_bottom_mine"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <ImageButton
+                    android:id="@+id/ib_mine"
+                    android:layout_width="35dp"
+                    android:layout_height="35dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:layout_weight="0.4"
+                    android:background="#00000000"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/bottom_mine_icon_unchecked" />
+
+                <TextView
+                    android:id="@+id/tv_mine"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="0dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="个人中心"
+                    android:textColor="#555555" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

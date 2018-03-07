@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="black">#000000</color>
+    <color name="spilt_txt_color">#646464</color>
+    <color name="white">#ffffff</color>
+    <color name="listBack">#cad4ec</color>
+
+    <!-- 背景顔色 -->
+    <color name="backgroundColor">#f3f3f3</color>
+    <!-- 未选中时登录宽框的颜色 -->
+    <color name="flae_frame">#c9c9c9</color>
+    <!-- 选中时登录框的颜色 -->
+    <color name="select_frame">#55abe6</color>
+
+    <!-- 主题蓝色 -->
+    <color name="mainBlue">#5193f4</color>
+
+    <!-- EditText颜色 -->
+    <color name="et_textColor">#0056d3</color>
+    <color name="et_underlineColor">#0056d3</color>
+
+    <!-- TextView -->
+    <!-- 表格title颜色 -->
+    <color name="tv_data_title">#8e8e8e</color>
+
+    <!-- top颜色 -->
+    <color name="top_bg">#f9f9f9</color>
+
+    <!-- 主页 -->
+    <color name="index_text_color">#8e8e8e</color>
+    <color name="index_bg_color">#ededf3</color>
+    <color name="index_bg_color2">#f3f3f3</color>
+
+    <!-- 分割线颜色 -->
+    <color name="lineColor">#dedede</color>
+
+    <!-- 原主页颜色 -->
+    <color name="gonggao_bg">#ffbfb0</color>
+
+</resources>
