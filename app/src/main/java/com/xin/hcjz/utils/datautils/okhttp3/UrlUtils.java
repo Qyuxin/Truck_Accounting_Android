@@ -1,13 +1,22 @@
 package com.xin.hcjz.utils.datautils.okhttp3;
 
+import com.xin.hcjz.debug.DebugConfig;
+
 /**
  * Created by Y on 2018/2/27.
  */
 
 public class UrlUtils {
 
-//    public static final String BASE_URL = "http://localhost:8080/HcjzService/";
-    public static final String BASE_URL = "http://i.jmtopapp.cn:8088/HcjzService/";
+
+    //    public static final String BASE_URL = "http://localhost:8080/HcjzService/";
+    public static String BASE_URL = "http://i.jmtopapp.cn:8088/HcjzService/";
+
+    {
+        if (DebugConfig.urlDebug == true) {
+            BASE_URL = "http://localhost:8080/HcjzService/";
+        }
+    }
 
     public static final String USER_LOGIN = "userLogin";//登录
     public static final String GET_COMS = "getComs";//获取所有厂名
@@ -42,7 +51,7 @@ public class UrlUtils {
      * post内容："orderCondition":orderConditionBean
      */
     public static String getGetOrdersUrlPost() {
-        return BASE_URL + ADD_ORDER;
+        return BASE_URL + GET_ORDERS;
     }
 
 }

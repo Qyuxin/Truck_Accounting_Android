@@ -39,6 +39,11 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     /**
+     * 初始化根布局
+     */
+    protected abstract void initRootLayout();
+
+    /**
      * 初始化布局
      */
     protected abstract void initView();
@@ -48,8 +53,4 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected abstract void initData();
 
-    /**
-     * 初始化根布局
-     */
-    protected abstract void initRootLayout();
 }
