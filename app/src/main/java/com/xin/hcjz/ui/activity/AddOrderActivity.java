@@ -23,7 +23,6 @@ import com.xin.hcjz.utils.datautils.date.DateUtils;
 import com.xin.hcjz.utils.datautils.okhttp3.OkHttpHelper;
 import com.xin.hcjz.utils.datautils.okhttp3.UrlUtils;
 import com.xin.hcjz.utils.uiutils.edittext.EditTextUtils;
-import com.xin.hcjz.utils.uiutils.intent.IntentUtils;
 import com.xin.hcjz.utils.uiutils.sweetalertdialog.SweetAlertDialogListener;
 import com.xin.hcjz.utils.uiutils.sweetalertdialog.SweetAlertDialogUtils;
 import com.xin.hcjz.utils.uiutils.toast.ToastUtils;
@@ -420,7 +419,7 @@ public class AddOrderActivity extends BaseActivity {
 
         bean.setOrderNo(System.currentTimeMillis() + "");
         bean.setScry(Session.USERNAME);
-        bean.setScsj(DateUtils.getStringYMDHMS());
+        bean.setScsj(DateUtils.getStringYMDHMS(DateUtils.getYMDHMS()));
 
         return bean;
     }

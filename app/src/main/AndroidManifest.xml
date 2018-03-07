@@ -23,6 +23,7 @@
         </activity>
         <activity android:name=".ui.activity.AddOrderActivity"></activity>
         <activity android:name=".ui.activity.ShowTjData"></activity>
+        <activity android:name=".ui.activity.ShowTjDataSimple"></activity>
     </application>
 
 </manifest>

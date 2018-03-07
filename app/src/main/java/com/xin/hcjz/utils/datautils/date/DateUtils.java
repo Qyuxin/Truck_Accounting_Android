@@ -4,34 +4,35 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import static android.R.id.list;
-
 
 /**
  * Created by Y on 2018/2/28.
  */
 
 public class DateUtils {
-    public static String getStringYMD() {
-        int[] ints = getYMDHMS();
+    private static int[] intsYMDHMS = new int[6];
+
+    public static String getStringYMD(int[] ints) {
         return ints[0] + "-" + format2(ints[1]) + "-" + format2(ints[2]);
     }
 
-    public static String getStringYMDHMS() {
-        int[] ints = getYMDHMS();
-        return getStringYMD() + " " + format2(ints[3]) + ":" + format2(ints[4]) + ":" + format2(ints[5]);
+    public static String getStringYMDHMS(int[] ints) {
+        return getStringYMD(ints) + " " + format2(ints[3]) + ":" + format2(ints[4]) + ":" + format2(ints[5]);
+    }
+
+    public static String getStringYM(int[] ints) {
+        return ints[0] + "-" + format2(ints[1]);
     }
 
     public static int[] getYMDHMS() {
-        int[] ints = new int[6];
         Calendar calendar = Calendar.getInstance();
-        ints[0] = calendar.get(Calendar.YEAR);
-        ints[1] = calendar.get(Calendar.MONTH) + 1;
-        ints[2] = calendar.get(Calendar.DAY_OF_MONTH);
-        ints[3] = calendar.get(Calendar.HOUR_OF_DAY);
-        ints[4] = calendar.get(Calendar.MINUTE);
-        ints[5] = calendar.get(Calendar.SECOND);
-        return ints;
+        intsYMDHMS[0] = calendar.get(Calendar.YEAR);
+        intsYMDHMS[1] = calendar.get(Calendar.MONTH) + 1;
+        intsYMDHMS[2] = calendar.get(Calendar.DAY_OF_MONTH);
+        intsYMDHMS[3] = calendar.get(Calendar.HOUR_OF_DAY);
+        intsYMDHMS[4] = calendar.get(Calendar.MINUTE);
+        intsYMDHMS[5] = calendar.get(Calendar.SECOND);
+        return intsYMDHMS;
     }
 
     public static String format2(String str) {

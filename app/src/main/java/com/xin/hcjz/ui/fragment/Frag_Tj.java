@@ -8,13 +8,12 @@ import android.widget.LinearLayout;
 
 import com.xin.hcjz.R;
 import com.xin.hcjz.ui.activity.ShowTjData;
+import com.xin.hcjz.ui.activity.ShowTjDataSimple;
 import com.xin.hcjz.ui.base.BaseFragment;
 import com.xin.hcjz.utils.uiutils.intent.IntentUtils;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 
 /**
@@ -46,18 +45,22 @@ public class Frag_Tj extends BaseFragment {
     }
 
 
-
     @OnClick({R.id.ll_tj_all, R.id.ll_tj_curMonth, R.id.ll_tj_shengshi})
     public void onViewClicked(View view) {
+        Bundle bundle = new Bundle();
         switch (view.getId()) {
             case R.id.ll_tj_all:
-                IntentUtils.gotoNext(mySelf, ShowTjData.class);
+                bundle.putString("month", "all");
+                IntentUtils.gotoNext(mySelf, ShowTjData.class, bundle);
                 break;
             case R.id.ll_tj_curMonth:
-                IntentUtils.gotoNext(mySelf, ShowTjData.class);
+                bundle.putString("month", "cur");
+                IntentUtils.gotoNext(mySelf, ShowTjDataSimple.class, bundle);
                 break;
             case R.id.ll_tj_shengshi:
-                IntentUtils.gotoNext(mySelf, ShowTjData.class);
+                bundle.putString("month", "cur");
+                bundle.putString("com", "盛世");
+                IntentUtils.gotoNext(mySelf, ShowTjDataSimple.class, bundle);
                 break;
         }
     }

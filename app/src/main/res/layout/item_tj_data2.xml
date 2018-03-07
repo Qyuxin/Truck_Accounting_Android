@@ -31,18 +31,17 @@
 
                 <TextView
                     android:id="@+id/tv_content_number"
-                    android:layout_width="wrap_content"
+                    android:layout_width="55dp"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:text="序号："
+                    android:text="000："
                     android:textColor="#ff9c00"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/tv_content_shsj"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
                     android:singleLine="true"
                     android:text="时间"
                     android:textColor="#ff9c00"
@@ -66,6 +65,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="55dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
@@ -81,7 +81,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="——"
+                    android:text="  ——  "
                     android:textColor="#ff9c00"
                     android:textSize="20dp" />
 
@@ -113,6 +113,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="55dp"
                 android:layout_weight="1"
                 android:orientation="horizontal">
 
@@ -150,6 +151,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="55dp"
                 android:orientation="horizontal">
 
 
@@ -180,6 +182,7 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -188,36 +191,20 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:layout_marginLeft="55dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tv_title_desc"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:singleLine="true"
-                    android:text="派车理由："
-                    android:textColor="#666666"
-                    android:textSize="20dp" />
-
-                <TextView
                     android:id="@+id/tv_content_desc"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:singleLine="true"
-                    android:text=""
+                    android:text="派车理由"
                     android:textColor="#ff9c00"
                     android:textSize="20dp" />
 
             </LinearLayout>
 
-
         </LinearLayout>
-
-
-
-
 
     </LinearLayout>
 
