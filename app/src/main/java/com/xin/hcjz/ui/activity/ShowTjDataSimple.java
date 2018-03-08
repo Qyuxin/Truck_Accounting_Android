@@ -167,7 +167,7 @@ public class ShowTjDataSimple extends BaseActivity {
         new MaterialDialog.Builder(mySelf)
                 .title("请选择厂名")
                 .items(new String[]{"盛世", "华光", "所有", "其他散户"})
-                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                     @Override
                     public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
 //                        ToastUtils.showToast("点击了-->"+which+"=="+text);
@@ -178,6 +178,7 @@ public class ShowTjDataSimple extends BaseActivity {
                         } else {
                             conditionBean.setCom(text + "");
                         }
+                        topTvTitle.setText(text + "");
                         getOrders();
                         return true;
                     }
