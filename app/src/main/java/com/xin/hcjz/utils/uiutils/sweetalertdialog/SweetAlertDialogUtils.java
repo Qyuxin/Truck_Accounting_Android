@@ -36,6 +36,7 @@ public class SweetAlertDialogUtils {
 
 
     public static void showWarningDialog(final Activity mySelf, String title, String confirmText, String cancelText, final SweetAlertDialogListener.onClickListener listener) {
+        sweetAlertDialog.dismiss();
         sweetAlertDialog = new SweetAlertDialog(mySelf, SweetAlertDialog.WARNING_TYPE)
                 .setTitleText(title)
                 .setConfirmText(confirmText)

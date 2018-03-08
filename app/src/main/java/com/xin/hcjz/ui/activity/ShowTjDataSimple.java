@@ -8,6 +8,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xin.hcjz.R;
@@ -18,6 +19,9 @@ import com.xin.hcjz.ui.base.BaseActivity;
 import com.xin.hcjz.utils.datautils.date.DateUtils;
 import com.xin.hcjz.utils.datautils.okhttp3.OkHttpHelper;
 import com.xin.hcjz.utils.datautils.okhttp3.UrlUtils;
+import com.xin.hcjz.utils.uiutils.Picker.PickerListener;
+import com.xin.hcjz.utils.uiutils.Picker.PickerUtils;
+import com.xin.hcjz.utils.uiutils.sweetalertdialog.SweetAlertDialogUtils;
 import com.xin.hcjz.utils.uiutils.toast.ToastUtils;
 
 import java.io.IOException;
@@ -65,42 +69,46 @@ public class ShowTjDataSimple extends BaseActivity {
 
     @Override
     protected void initView() {
-        topTvTitle.setText("账单");
+        topTvTitle.setText("账单统计");
         topRlLeft.setVisibility(View.VISIBLE);
+        topTvTitle.setClickable(true);
     }
 
     @Override
     protected void initData() {
         String month = getIntent().getStringExtra("month");
         String com = getIntent().getStringExtra("com");
-        if (month!=null){
-            if (month.equals("cur")){
+        if (month != null) {
+            if (month.equals("cur")) {
                 //当月
                 String curMonth = DateUtils.getStringYM(DateUtils.getYMDHMS());
                 conditionBean.setShrqStart(curMonth);
-                conditionBean.setShrqEnd(curMonth+"-31");
+                conditionBean.setShrqEnd(curMonth + "-31");
                 topRlRight.setVisibility(View.VISIBLE);
                 topIbRight.setVisibility(View.GONE);
                 topBtnRight.setVisibility(View.VISIBLE);
                 topBtnRight.setText(curMonth);
-            }else {
+            } else {
                 //所有月
             }
         }
-        if (!TextUtils.isEmpty(com)){
+        if (!TextUtils.isEmpty(com)) {
+            topTvTitle.setText(com);
             conditionBean.setCom(com);
         }
 
         listDate = new ArrayList<>();
-        adapter = new SimpleTjDataAdapter(this,listDate,R.layout.item_tj_data2);
+        adapter = new SimpleTjDataAdapter(this, listDate, R.layout.item_tj_data2);
         lvData.setAdapter(adapter);
 
         getOrders();
     }
 
+    //获取账单信息
     private void getOrders() {
+        SweetAlertDialogUtils.showProgressDialog(mySelf, "读取中，请稍候...");
         Map map = new HashMap();
-        map.put("orderCondition",new Gson().toJson(conditionBean));
+        map.put("orderCondition", new Gson().toJson(conditionBean));
         OkHttpHelper.doPost(UrlUtils.getGetOrdersUrlPost(), map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
@@ -108,6 +116,7 @@ public class ShowTjDataSimple extends BaseActivity {
                     @Override
                     public void run() {
                         ToastUtils.showToast("网络连接失败");
+                        SweetAlertDialogUtils.dismissDialog();
                     }
                 });
             }
@@ -115,15 +124,20 @@ public class ShowTjDataSimple extends BaseActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                final List<OrderInfoBean> list = new Gson().fromJson(result,new TypeToken<List<OrderInfoBean>>(){}.getType());
+                final List<OrderInfoBean> list = new Gson().fromJson(result, new TypeToken<List<OrderInfoBean>>() {
+                }.getType());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         listDate.clear();
-                        for (OrderInfoBean bean1:list){
+                        for (OrderInfoBean bean1 : list) {
                             listDate.add(bean1);
                         }
                         adapter.notifyDataSetChanged();
+                        if (listDate.size() == 0) {
+                            ToastUtils.showToast("无数据！");
+                        }
+                        SweetAlertDialogUtils.dismissDialog();
                     }
                 });
             }
@@ -131,8 +145,63 @@ public class ShowTjDataSimple extends BaseActivity {
     }
 
 
-    @OnClick({R.id.top_rl_left,R.id.top_ib_left})
-    public void onViewClicked() {
-        finish();
+    @OnClick({R.id.top_rl_left, R.id.top_ib_left, R.id.top_rl_right, R.id.top_btn_right, R.id.top_tv_title})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.top_rl_left:
+            case R.id.top_ib_left:
+                finish();
+                break;
+            case R.id.top_rl_right:
+            case R.id.top_btn_right:
+                selectDate();
+                break;
+            case R.id.top_tv_title:
+                selectCom();
+                break;
+        }
+    }
+
+    //选择厂名
+    private void selectCom() {
+        new MaterialDialog.Builder(mySelf)
+                .title("请选择厂名")
+                .items(new String[]{"盛世", "华光", "所有", "其他散户"})
+                .itemsCallbackSingleChoice(-1, new MaterialDialog.ListCallbackSingleChoice() {
+                    @Override
+                    public boolean onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
+//                        ToastUtils.showToast("点击了-->"+which+"=="+text);
+                        if (text.toString().contains("其他")) {
+                            conditionBean.setCom("other");
+                        } else if (text.toString().equals("所有")) {
+                            conditionBean.setCom(null);
+                        } else {
+                            conditionBean.setCom(text + "");
+                        }
+                        getOrders();
+                        return true;
+                    }
+                })
+                .positiveText("确定")
+                .show();
+    }
+
+    //选择日期
+    private void selectDate() {
+        new PickerUtils().onYearMonthPicker(mySelf, new PickerListener.onYearMonthListener() {
+            @Override
+            public void onYearMonthListener(final String year, final String month) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String selectMonth = year + "-" + DateUtils.format2(month);
+                        topBtnRight.setText(selectMonth);
+                        conditionBean.setShrqStart(selectMonth);
+                        conditionBean.setShrqEnd(selectMonth + "-31");
+                        getOrders();
+                    }
+                });
+            }
+        });
     }
 }
