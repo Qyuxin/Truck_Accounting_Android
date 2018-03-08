@@ -5,5 +5,5 @@ package com.xin.hcjz.cc;
  */
 
 public class Session {
-    public static String USERNAME = null;
+    public static String USERNAME = "";
 }
