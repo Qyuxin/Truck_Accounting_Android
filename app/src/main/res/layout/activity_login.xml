@@ -131,13 +131,13 @@
             android:layout_marginTop="10dp">
 
             <Button
-                android:id="@+id/btn_registered"
+                android:id="@+id/btn_url_debug"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="20dp"
                 android:background="#00000000"
-                android:text="账号注册"
+                android:text="用户模式"
                 android:textColor="@color/mainBlue"
                 android:textSize="15dp" />
 

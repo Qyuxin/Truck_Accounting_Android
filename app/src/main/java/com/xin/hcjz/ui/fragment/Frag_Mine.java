@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.xin.hcjz.R;
 import com.xin.hcjz.cc.Session;
+import com.xin.hcjz.debug.DebugConfig;
 import com.xin.hcjz.ui.activity.LoginActivity;
 import com.xin.hcjz.ui.base.BaseFragment;
 import com.xin.hcjz.utils.uiutils.intent.IntentUtils;
@@ -41,6 +42,8 @@ public class Frag_Mine extends BaseFragment {
     LinearLayout llVersionUpdate;
     @BindView(R.id.activity_personal)
     RelativeLayout activityPersonal;
+    @BindView(R.id.tv_test_mode)
+    TextView tvTestMode;
 
     @Override
     protected void initRootLayout(LayoutInflater inflater, ViewGroup container) {
@@ -58,7 +61,20 @@ public class Frag_Mine extends BaseFragment {
 
     }
 
-    @OnClick(R.id.ll_out)
+    @OnClick({R.id.ll_out, R.id.ll_test_mode, R.id.tv_test_mode})
+    void click(View view) {
+        switch (view.getId()) {
+            case R.id.ll_out:
+                doLogout();
+                break;
+            case R.id.ll_test_mode:
+            case R.id.tv_test_mode:
+                break;
+        }
+    }
+
+
+    //退出登录
     void doLogout() {
         SweetAlertDialogUtils.showWarningDialog(mySelf, "确认退出吗？", "确认退出", "点错返回", new SweetAlertDialogListener.onClickListener() {
             @Override

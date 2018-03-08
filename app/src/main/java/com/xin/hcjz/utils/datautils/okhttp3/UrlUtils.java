@@ -11,10 +11,12 @@ public class UrlUtils {
 
     //    public static final String BASE_URL = "http://localhost:8080/HcjzService/";
     public static String BASE_URL = "http://i.jmtopapp.cn:8088/HcjzService/";
+    public static String BASE_URL_DEBUG = "http://localhost:8080/HcjzService/";
+    public static String BASE_URL_COMMON = "http://i.jmtopapp.cn:8088/HcjzService/";
 
     {
         if (DebugConfig.urlDebug == true) {
-            BASE_URL = "http://localhost:8080/HcjzService/";
+            BASE_URL = BASE_URL_DEBUG;
         }
     }
 
