@@ -1,5 +1,6 @@
 package com.xin.hcjz.utils.datautils.okhttp3;
 
+import com.xin.hcjz.cc.Session;
 import com.xin.hcjz.debug.DebugConfig;
 
 /**
@@ -25,8 +26,11 @@ public class UrlUtils {
     public static final String GET_STARTS_BY_COM = "getStartsByCom";//根据厂名获取所有起始地址
     public static final String GET_ENDS_BY_START = "getEndsByStart";//根据起点获取终点
     public static final String GET_UAP_BY_SAE = "getUAPBySAE";//根据起点和终点获取是否上下货和价格
+
     public static final String ADD_ORDER = "addOrder";//上传账单
     public static final String GET_ORDERS = "getOrders";//获取账单
+    public static final String UPDATE_ORDER = "updateOrder";//修改账单
+    public static final String DEL_ORDER = "delOrder";//删除账单
 
 
     public static String getUserLoginUrl(String username, String pwd) {
@@ -54,6 +58,19 @@ public class UrlUtils {
      */
     public static String getGetOrdersUrlPost() {
         return BASE_URL + GET_ORDERS;
+    }
+
+    /**
+     * 修改Order内容
+     * post内容："orderInfo":orderInfoBean
+     */
+    public static String getUpdateOrderUrlPost() {
+        return BASE_URL + UPDATE_ORDER;
+    }
+
+    //删除Order
+    public static String getDelOrder(String orderNo) {
+        return BASE_URL + DEL_ORDER + "?user=" + Session.USERNAME + "&orderNo=" + orderNo;
     }
 
 }

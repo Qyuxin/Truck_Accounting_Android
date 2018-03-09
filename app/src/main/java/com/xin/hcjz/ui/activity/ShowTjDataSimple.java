@@ -2,6 +2,7 @@ package com.xin.hcjz.ui.activity;
 
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -21,6 +22,7 @@ import com.xin.hcjz.utils.datautils.okhttp3.OkHttpHelper;
 import com.xin.hcjz.utils.datautils.okhttp3.UrlUtils;
 import com.xin.hcjz.utils.uiutils.Picker.PickerListener;
 import com.xin.hcjz.utils.uiutils.Picker.PickerUtils;
+import com.xin.hcjz.utils.uiutils.sweetalertdialog.SweetAlertDialogListener;
 import com.xin.hcjz.utils.uiutils.sweetalertdialog.SweetAlertDialogUtils;
 import com.xin.hcjz.utils.uiutils.toast.ToastUtils;
 
@@ -32,6 +34,7 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
@@ -100,9 +103,78 @@ public class ShowTjDataSimple extends BaseActivity {
         listDate = new ArrayList<>();
         adapter = new SimpleTjDataAdapter(this, listDate, R.layout.item_tj_data2);
         lvData.setAdapter(adapter);
+        lvData.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                ToastUtils.showToast("当前选中-->" + listDate.get(i).getEnd());
+                showEditOrDelete(i);
+                return true;
+            }
+        });
 
         getOrders();
     }
+
+    private void showEditOrDelete(final int position) {
+        SweetAlertDialogUtils.showWarningDialog(mySelf, "请选择操作", "修改账单", "删除账单", new SweetAlertDialogListener.onClickListener() {
+            @Override
+            public void onConfirm(SweetAlertDialog sweetAlertDialog) {
+                //修改
+                ToastUtils.showToast("修改功能正在开发中...");
+                SweetAlertDialogUtils.dismissDialog();
+            }
+
+            @Override
+            public void onCancel(SweetAlertDialog sweetAlertDialog) {
+                //删除
+                SweetAlertDialogUtils.showWarningDialog(mySelf, "确定删除吗？", "确定", "返回", new SweetAlertDialogListener.onClickListener() {
+                    @Override
+                    public void onConfirm(SweetAlertDialog sweetAlertDialog) {
+                        SweetAlertDialogUtils.showProgressDialog(mySelf, "删除中，请稍等...");
+                        OkHttpHelper.doGet(UrlUtils.getDelOrder(listDate.get(position).getOrderNo()), new Callback() {
+                            @Override
+                            public void onFailure(Call call, IOException e) {
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        ToastUtils.showToast("网络异常！");
+                                        SweetAlertDialogUtils.dismissDialog();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onResponse(Call call, Response response) throws IOException {
+                                final String result = response.body().string();
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        if (result.equals("0")) {
+                                            ToastUtils.showToast("删除失败！");
+                                        } else if (result.equals("1")) {
+                                            ToastUtils.showToast("删除成功！");
+                                            listDate.remove(position);
+                                            adapter.notifyDataSetChanged();
+                                        } else {
+                                            ToastUtils.showToast("删除" + result + "条数据成功！");
+                                        }
+                                        SweetAlertDialogUtils.dismissDialog();
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancel(SweetAlertDialog sweetAlertDialog) {
+                        ToastUtils.showToast("取消操作");
+                        SweetAlertDialogUtils.dismissDialog();
+                    }
+                });
+            }
+        });
+    }
+
 
     //获取账单信息
     private void getOrders() {
