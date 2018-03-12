@@ -1,5 +1,6 @@
 package com.xin.hcjz.ui.activity;
 
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +23,7 @@ import com.xin.hcjz.utils.datautils.okhttp3.OkHttpHelper;
 import com.xin.hcjz.utils.datautils.okhttp3.UrlUtils;
 import com.xin.hcjz.utils.uiutils.Picker.PickerListener;
 import com.xin.hcjz.utils.uiutils.Picker.PickerUtils;
+import com.xin.hcjz.utils.uiutils.intent.IntentUtils;
 import com.xin.hcjz.utils.uiutils.sweetalertdialog.SweetAlertDialogListener;
 import com.xin.hcjz.utils.uiutils.sweetalertdialog.SweetAlertDialogUtils;
 import com.xin.hcjz.utils.uiutils.toast.ToastUtils;
@@ -120,8 +122,12 @@ public class ShowTjDataSimple extends BaseActivity {
             @Override
             public void onConfirm(SweetAlertDialog sweetAlertDialog) {
                 //修改
-                ToastUtils.showToast("修改功能正在开发中...");
+//                ToastUtils.showToast("修改功能正在开发中...");
                 SweetAlertDialogUtils.dismissDialog();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("orderInfo", listDate.get(position));
+                IntentUtils.gotoNext(mySelf, AddOrderActivity.class, bundle);
+
             }
 
             @Override

@@ -1,6 +1,11 @@
 package com.xin.hcjz.bean;
 
-public class OrderConditionBean {
+import java.io.Serializable;
+
+public class OrderConditionBean implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+
 	private String orderNo;// 订单编号 时间戳
 	private String com;// 厂名
 	private String start;// 开始地址

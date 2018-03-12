@@ -1,6 +1,9 @@
 package com.xin.hcjz.bean;
 
-public class UpdownAndPriceBean {
+import java.io.Serializable;
+
+public class UpdownAndPriceBean implements Serializable{
+	private static final long serialVersionUID = 1L;
 	private String updown;
 	private String price;
 	public UpdownAndPriceBean(String updown, String price) {
