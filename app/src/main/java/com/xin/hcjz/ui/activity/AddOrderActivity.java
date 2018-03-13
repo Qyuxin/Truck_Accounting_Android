@@ -16,7 +16,7 @@ import com.google.gson.reflect.TypeToken;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.xin.hcjz.R;
 import com.xin.hcjz.bean.OrderInfoBean;
-import com.xin.hcjz.bean.UpdownAndPriceBean;
+import com.xin.hcjz.bean.DefaultInfoOfOrderBean;
 import com.xin.hcjz.cc.Session;
 import com.xin.hcjz.ui.base.BaseActivity;
 import com.xin.hcjz.utils.datautils.date.DateUtils;
@@ -44,6 +44,7 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 import static com.xin.hcjz.utils.datautils.date.DateUtils.getDays;
+import static com.xin.hcjz.utils.datautils.date.DateUtils.getListYear;
 
 /**
  * Created by huangju on 2018/2/27.
@@ -105,9 +106,15 @@ public class AddOrderActivity extends BaseActivity {
     @BindView(R.id.ll_end_sp)
     LinearLayout llEndSp;
 
+    private static final int STATE_UPDATE = 100;
+    private static final int STATE_ADD = 101;
+
+    private int curState = STATE_ADD;
+    private OrderInfoBean updateOrderInfoBean = null;
+
     @Override
     protected void initRootLayout() {
-        setContentView(R.layout.activity_addorders);
+        setContentView(R.layout.activity_addorder);
     }
 
     @Override
@@ -116,29 +123,15 @@ public class AddOrderActivity extends BaseActivity {
         topRlLeft.setVisibility(View.VISIBLE);
         topRlRight.setVisibility(View.VISIBLE);
 
-        initDateInfo();
     }
 
-    private void initDateInfo() {
-        int[] ints = DateUtils.getYMDHMS();
+    //初始化控件
+    private void initViewDate() {
 
-        spYear.attachDataSource(DateUtils.getListYear());
+        spYear.attachDataSource(getListYear());
         spMonth.attachDataSource(DateUtils.getListMonth());
         spDay.attachDataSource(getDays(spYear.getText().toString(), spMonth.getText().toString()));
         spPeriod.attachDataSource(DateUtils.getListPeriod());
-
-        spMonth.setSelectedIndex(ints[1] - 1);
-        spDay.setSelectedIndex(ints[2] - 1);
-
-        if (ints[3] >= 0 && ints[3] < 6) {
-            spPeriod.setSelectedIndex(0);
-        } else if (ints[3] >= 6 && ints[3] < 12) {
-            spPeriod.setSelectedIndex(1);
-        } else if (ints[3] >= 12 && ints[3] < 18) {
-            spPeriod.setSelectedIndex(2);
-        } else {
-            spPeriod.setSelectedIndex(3);
-        }
 
         spMonth.addOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -162,10 +155,30 @@ public class AddOrderActivity extends BaseActivity {
 
     }
 
+    //赋值默认日期为当前时间
+    private void initDefaultDate() {
+
+        int[] ints = DateUtils.getYMDHMS();
+        spMonth.setSelectedIndex(ints[1] - 1);
+        spDay.setSelectedIndex(ints[2] - 1);
+
+        if (ints[3] >= 0 && ints[3] < 6) {
+            spPeriod.setSelectedIndex(0);
+        } else if (ints[3] >= 6 && ints[3] < 12) {
+            spPeriod.setSelectedIndex(1);
+        } else if (ints[3] >= 12 && ints[3] < 18) {
+            spPeriod.setSelectedIndex(2);
+        } else {
+            spPeriod.setSelectedIndex(3);
+        }
+
+    }
+
+    //根据年月刷新天数
     private void refreshDays() {
 //        String year = spYear.getText().toString();
 //        String month = spMonth.getText().toString();
-        String year = DateUtils.getListYear().get(spYear.getSelectedIndex());
+        String year = getListYear().get(spYear.getSelectedIndex());
         String month = DateUtils.getListMonth().get(spMonth.getSelectedIndex());
         List<String> listDays = DateUtils.getDays(year, month);
         if (!listDays.contains(spDay.getText().toString())) {
@@ -175,6 +188,62 @@ public class AddOrderActivity extends BaseActivity {
 
     @Override
     protected void initData() {
+
+        initViewDate();
+        updateOrderInfoBean = (OrderInfoBean) getIntent().getSerializableExtra("orderInfo");
+        if (updateOrderInfoBean != null) {
+            curState = STATE_UPDATE;
+        }
+        switch (curState) {
+            case STATE_ADD:
+                initAddData();
+                break;
+            case STATE_UPDATE:
+                initUpdateData(updateOrderInfoBean);
+                break;
+        }
+    }
+
+    //更新账单 赋值
+    private void initUpdateData(OrderInfoBean bean) {
+        String[] date = bean.getShrq().split("-");
+        etCom.setText(bean.getCom());
+        etStart.setText(bean.getStart());
+        llEndSp.setVisibility(View.GONE);
+        etEnd.setVisibility(View.VISIBLE);
+        etEnd.setText(bean.getEnd());
+        spYear.setText(date[0]);
+        int yearIndex = DateUtils.getListYear().indexOf(date[0]);
+        if (yearIndex != -1) {
+            spYear.setSelectedIndex(yearIndex);
+        } else {
+            spYear.setSelectedIndex(DateUtils.getListYear().size() - 1);
+            spYear.setText(date[0]);
+        }
+        spMonth.setSelectedIndex(Integer.parseInt(date[1]) - 1);
+        spDay.setSelectedIndex(Integer.parseInt(date[2]) - 1);
+        int periodIndex = DateUtils.getListPeriod().indexOf(bean.getShsjd());
+        if (periodIndex >= 0) {
+            spPeriod.setSelectedIndex(periodIndex);
+        }
+        spPeriod.setText(bean.getShsjd());
+        etDesc.setText(bean.getDesc());
+        if (bean.getUpdown().equals("0")) {
+            rgUpdown.check(R.id.rb_updown_no);
+        } else {
+            rgUpdown.check(R.id.rb_updown_yes);
+        }
+        etPrice.setText(bean.getPrice());
+        if (bean.getOrderHavenumber().equals("0")) {
+            rgHavenumber.check(R.id.rb_havenumber_no);
+        } else {
+            rgHavenumber.check(R.id.rb_havenumber_yes);
+        }
+        etOrderNumber.setText(bean.getOrderNumber());
+    }
+
+    private void initAddData() {
+        initDefaultDate();
         String com = getIntent().getStringExtra("com");
         if (com != null) {
             //华光或盛世
@@ -248,7 +317,7 @@ public class AddOrderActivity extends BaseActivity {
         String start = EditTextUtils.getTextByEditText(etStart);
 //        String end = spEnd.getText().toString().trim();
         System.out.println(start + "||" + end);
-        OkHttpHelper.doGet(UrlUtils.getUAPBySAE(start, end), new Callback() {
+        OkHttpHelper.doGet(UrlUtils.getDefaultInfoByPosition(start, end), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 ToastUtils.showToast("获取失败，请检查网络！");
@@ -257,15 +326,15 @@ public class AddOrderActivity extends BaseActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
 //                System.out.println("获取价格-->"+response.body().string());
-                final List<UpdownAndPriceBean> list = new Gson().fromJson(response.body().string(), new TypeToken<List<UpdownAndPriceBean>>() {
+                final List<DefaultInfoOfOrderBean> list = new Gson().fromJson(response.body().string(), new TypeToken<List<DefaultInfoOfOrderBean>>() {
                 }.getType());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
 //                        ToastUtils.showToast("获取价格成功"+list.size());
                         if (list.size() > 0) {
-                            UpdownAndPriceBean bean = list.get(0);
-                            if (bean.getUpdown().equals("1")) {
+                            DefaultInfoOfOrderBean bean = list.get(0);
+                            if (bean.getUpdown() != null && bean.getUpdown().equals("1")) {
                                 rgUpdown.check(rbUpdownYes.getId());
                             } else {
                                 rgUpdown.check(rbUpdownNo.getId());
@@ -274,6 +343,11 @@ public class AddOrderActivity extends BaseActivity {
                                 etPrice.setText(bean.getPrice());
                             } else {
                                 etPrice.setText("");
+                            }
+                            if (bean.getHaveNumber() != null && bean.getHaveNumber().equals("1")) {
+                                rgHavenumber.check(rbHavenumberYes.getId());
+                            } else {
+                                rgHavenumber.check(rbHavenumberNo.getId());
                             }
 
                         }
@@ -325,8 +399,17 @@ public class AddOrderActivity extends BaseActivity {
         }
     }
 
+    //保存操作，上传或修改
     private void doSave() {
-        SweetAlertDialogUtils.showWarningDialog(mySelf, "确认上传吗？", "确认上传", "返回修改", new SweetAlertDialogListener.onClickListener() {
+        String todo = "上传";
+        String url = UrlUtils.getAddOrderUrlPost();
+        if (curState == STATE_UPDATE) {
+            todo = "修改";
+            url = UrlUtils.getUpdateOrderUrlPost();
+        }
+        final String finalTodo = todo;
+        final String finalUrl = url;
+        SweetAlertDialogUtils.showWarningDialog(mySelf, "确认" + finalTodo + "吗？", "确认" + finalTodo, "返回修改", new SweetAlertDialogListener.onClickListener() {
             @Override
             public void onConfirm(final SweetAlertDialog sweetAlertDialog) {
                 sweetAlertDialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
@@ -334,13 +417,13 @@ public class AddOrderActivity extends BaseActivity {
                 sweetAlertDialog.showContentText(false);
                 Map<String, String> map = new HashMap<String, String>();
                 map.put("orderInfo", new Gson().toJson(getAllData()));
-                OkHttpHelper.doPost(UrlUtils.getAddOrdersUrlPost(), map, new Callback() {
+                OkHttpHelper.doPost(finalUrl, map, new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                ToastUtils.showToast("上传失败，请检查网络连接后重试！");
+                                ToastUtils.showToast(finalTodo + "失败，请检查网络连接后重试！");
                                 sweetAlertDialog.dismiss();
                             }
                         });
@@ -354,12 +437,15 @@ public class AddOrderActivity extends BaseActivity {
                             public void run() {
                                 if (result.equals("1")) {
                                     //上传成功
-                                    ToastUtils.showToast("上传成功！");
+                                    ToastUtils.showToast(finalTodo + "成功！");
                                     sweetAlertDialog.dismiss();
+                                    if (curState == STATE_UPDATE) {
+                                        setResult(1);
+                                    }
                                     finish();
                                 } else {
                                     //上传失败
-                                    ToastUtils.showToast("上传失败，请重试-->" + result);
+                                    ToastUtils.showToast(finalTodo + "失败，请重试-->" + result);
                                     sweetAlertDialog.dismiss();
                                 }
                             }
@@ -417,7 +503,11 @@ public class AddOrderActivity extends BaseActivity {
         bean.setOrderHavenumber(havenumber);
         bean.setOrderNumber(ordernumber);
 
-        bean.setOrderNo(System.currentTimeMillis() + "");
+        if (curState == STATE_ADD) {
+            bean.setOrderNo(System.currentTimeMillis() + "");
+        } else {
+            bean.setOrderNo(updateOrderInfoBean.getOrderNo());
+        }
         bean.setScry(Session.USERNAME);
         bean.setScsj(DateUtils.getStringYMDHMS(DateUtils.getYMDHMS()));
 

@@ -1,10 +1,14 @@
 package com.xin.hcjz.ui.adapter;
 
 import android.content.Context;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.xin.hcjz.R;
 import com.xin.hcjz.bean.OrderInfoBean;
+import com.xin.hcjz.ui.activity.ShowTjData;
 import com.xin.hcjz.ui.base.MyBaseAdapter;
 
 import java.util.List;
@@ -16,23 +20,15 @@ import java.util.List;
 public class TjDataAdapter extends MyBaseAdapter<OrderInfoBean> {
 
     private TextView tvContentNumber;
-//    private TextView tvTitleCom;
-    private TextView tvContentCom;
-//    private TextView tvTitleShsj;
     private TextView tvContentShsj;
-//    private TextView tvTitleStart;
     private TextView tvContentStart;
-//    private TextView tvTitleEnd;
     private TextView tvContentEnd;
-//    private TextView tvTitlePrice;
     private TextView tvContentPrice;
-//    private TextView tvTitleDesc;
     private TextView tvContentDesc;
-//    private TextView tvTitleUpdown;
     private TextView tvContentUpdown;
     private TextView tvContentHaveOrderNumber;
-//    private TextView tvTitleOrderNumber;
     private TextView tvContentOrderNumber;
+    private LinearLayout llDesc;
 
     public TjDataAdapter(Context context, List<OrderInfoBean> list, int layout) {
         super(context, list, layout);
@@ -40,35 +36,44 @@ public class TjDataAdapter extends MyBaseAdapter<OrderInfoBean> {
 
     @Override
     public void convert(ViewHolder holder, OrderInfoBean orderInfoBean, int position) {
+        int count = 0;
+        try {
+            count = ((ShowTjData) mContext).count;
+        } catch (Exception e) {
+        }
+
         tvContentNumber = holder.findViewById(R.id.tv_content_number);
-//        tvTitleCom = holder.findViewById(R.id.tv_title_com);
-        tvContentCom = holder.findViewById(R.id.tv_content_com);
-//        tvTitleShsj = holder.findViewById(R.id.tv_title_shsj);
         tvContentShsj = holder.findViewById(R.id.tv_content_shsj);
-//        tvTitleStart = holder.findViewById(R.id.tv_title_start);
         tvContentStart = holder.findViewById(R.id.tv_content_start);
-//        tvTitleEnd = holder.findViewById(R.id.tv_title_end);
         tvContentEnd = holder.findViewById(R.id.tv_content_end);
-//        tvTitlePrice = holder.findViewById(R.id.tv_title_price);
         tvContentPrice = holder.findViewById(R.id.tv_content_price);
-//        tvTitleDesc = holder.findViewById(R.id.tv_title_desc);
         tvContentDesc = holder.findViewById(R.id.tv_content_desc);
-//        tvTitleUpdown = holder.findViewById(R.id.tv_title_updown);
         tvContentUpdown = holder.findViewById(R.id.tv_content_updown);
         tvContentHaveOrderNumber = holder.findViewById(R.id.tv_content_haveordernumber);
-//        tvTitleOrderNumber = holder.findViewById(R.id.tv_title_ordernumber);
         tvContentOrderNumber = holder.findViewById(R.id.tv_content_ordernumber);
+        llDesc = holder.findViewById(R.id.ll_desc);
 
-        tvContentNumber.setText(position + 1 + "");
-        tvContentCom.setText(orderInfoBean.getCom());
+        if (count == 0) {
+            tvContentNumber.setText(position + 1 + ".    ");
+        } else {
+            int curPage = position / count + 1;
+            int curPos = position % count + 1;
+            tvContentNumber.setText(curPage + "-" + curPos + ".    ");
+        }
         tvContentShsj.setText(orderInfoBean.getShrq() + "  " + orderInfoBean.getShsjd());
         tvContentStart.setText(orderInfoBean.getStart());
         tvContentEnd.setText(orderInfoBean.getEnd());
-        tvContentPrice.setText(orderInfoBean.getPrice());
-        tvContentDesc.setText(orderInfoBean.getDesc());
-        tvContentUpdown.setText(orderInfoBean.getUpdown().equals("0")?"无":"上下货");
-        tvContentHaveOrderNumber.setText(orderInfoBean.getOrderHavenumber().equals("0")?"无":"有");
-        tvContentOrderNumber.setText(orderInfoBean.getOrderNumber());
+        tvContentPrice.setText(orderInfoBean.getPrice() + "元    ");
+        tvContentUpdown.setText(orderInfoBean.getUpdown().equals("0") ? "没有上下货" : "上下货");
+        tvContentHaveOrderNumber.setText(orderInfoBean.getOrderHavenumber().equals("0") ? "无回单" : "有回单");
+        tvContentOrderNumber.setText(TextUtils.isEmpty(orderInfoBean.getOrderNumber()) ? "" : "    单号：" + orderInfoBean.getOrderNumber());
+
+        if (TextUtils.isEmpty(orderInfoBean.getDesc())) {
+            llDesc.setVisibility(View.GONE);
+        } else {
+            llDesc.setVisibility(View.VISIBLE);
+            tvContentDesc.setText(orderInfoBean.getDesc());
+        }
 
     }
 }

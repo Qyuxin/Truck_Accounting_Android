@@ -1,11 +1,14 @@
 package com.xin.hcjz.ui.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.annotation.NonNull;
+import android.text.InputType;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,10 +17,11 @@ import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.xin.hcjz.R;
-import com.xin.hcjz.bean.OrderConditionBean;
 import com.xin.hcjz.bean.OrderInfoBean;
-import com.xin.hcjz.ui.adapter.SimpleTjDataAdapter;
+import com.xin.hcjz.bean.ShinfoBean;
+import com.xin.hcjz.ui.adapter.ShinfoDataAdapter;
 import com.xin.hcjz.ui.base.BaseActivity;
+import com.xin.hcjz.utils.datautils.customutils.SharedPreferencesUtils;
 import com.xin.hcjz.utils.datautils.date.DateUtils;
 import com.xin.hcjz.utils.datautils.okhttp3.OkHttpHelper;
 import com.xin.hcjz.utils.datautils.okhttp3.UrlUtils;
@@ -41,69 +45,55 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
+import static android.R.attr.filter;
+
 /**
  * Created by Y on 2018/3/7.
  */
 
-public class ShowTjDataSimple extends BaseActivity {
-    @BindView(R.id.lv_data)
-    ListView lvData;
+public class ShowShinfoData extends BaseActivity {
+
     @BindView(R.id.top_tv_title)
     TextView topTvTitle;
     @BindView(R.id.top_ib_left)
     ImageButton topIbLeft;
     @BindView(R.id.top_rl_left)
     RelativeLayout topRlLeft;
-    @BindView(R.id.top_rl_right)
-    RelativeLayout topRlRight;
-    @BindView(R.id.top_btn_right)
-    Button topBtnRight;
     @BindView(R.id.top_ib_right)
     ImageButton topIbRight;
+    @BindView(R.id.top_btn_right)
+    Button topBtnRight;
+    @BindView(R.id.top_rl_right)
+    RelativeLayout topRlRight;
+    @BindView(R.id.btn_com)
+    Button btnCom;
+    @BindView(R.id.btn_arrange)
+    Button btnArrange;
+    @BindView(R.id.ll_condition)
+    LinearLayout llCondition;
+    @BindView(R.id.lv_data)
+    ListView lvData;
+    private ShinfoDataAdapter adapter;
+    private List<ShinfoBean> listDate = new ArrayList<>();
 
-    private SimpleTjDataAdapter adapter;
-    private List<OrderInfoBean> listDate;
-
-
-    private OrderConditionBean conditionBean = new OrderConditionBean();
+    private List<ShinfoBean> listDataTem = new ArrayList();
 
     @Override
     protected void initRootLayout() {
-        setContentView(R.layout.activity_tj_data);
+        setContentView(R.layout.activity_show_shinfo);
     }
 
     @Override
     protected void initView() {
-        topTvTitle.setText("账单统计");
+        topTvTitle.setText("预留信息");
         topRlLeft.setVisibility(View.VISIBLE);
         topTvTitle.setClickable(true);
     }
 
     @Override
     protected void initData() {
-        String month = getIntent().getStringExtra("month");
-        String com = getIntent().getStringExtra("com");
-        if (month != null) {
-            if (month.equals("cur")) {
-                //当月
-                String curMonth = DateUtils.getStringYM(DateUtils.getYMDHMS());
-                conditionBean.setShrqStart(curMonth);
-                conditionBean.setShrqEnd(curMonth + "-31");
-                topRlRight.setVisibility(View.VISIBLE);
-                topIbRight.setVisibility(View.GONE);
-                topBtnRight.setVisibility(View.VISIBLE);
-                topBtnRight.setText(curMonth);
-            } else {
-                //所有月
-            }
-        }
-        if (!TextUtils.isEmpty(com)) {
-            topTvTitle.setText(com);
-            conditionBean.setCom(com);
-        }
 
-        listDate = new ArrayList<>();
-        adapter = new SimpleTjDataAdapter(this, listDate, R.layout.item_tj_data2);
+        adapter = new ShinfoDataAdapter(this, listDate, R.layout.item_shinfo_data);
         lvData.setAdapter(adapter);
         lvData.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -114,20 +104,20 @@ public class ShowTjDataSimple extends BaseActivity {
             }
         });
 
-        getOrders();
+        getShinfos();
     }
 
+    //长按显示编辑或删除选项
     private void showEditOrDelete(final int position) {
-        SweetAlertDialogUtils.showWarningDialog(mySelf, "请选择操作", "修改账单", "删除账单", new SweetAlertDialogListener.onClickListener() {
+        SweetAlertDialogUtils.showWarningDialog(mySelf, "请选择操作", "修改信息", "删除信息", new SweetAlertDialogListener.onClickListener() {
             @Override
             public void onConfirm(SweetAlertDialog sweetAlertDialog) {
                 //修改
 //                ToastUtils.showToast("修改功能正在开发中...");
                 SweetAlertDialogUtils.dismissDialog();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("orderInfo", listDate.get(position));
-                IntentUtils.gotoNext(mySelf, AddOrderActivity.class, bundle);
-
+                bundle.putSerializable("shinfo", listDate.get(position));
+                IntentUtils.gotoNextForResult(mySelf, AddShinfoActivity.class, bundle, 1);
             }
 
             @Override
@@ -137,7 +127,7 @@ public class ShowTjDataSimple extends BaseActivity {
                     @Override
                     public void onConfirm(SweetAlertDialog sweetAlertDialog) {
                         SweetAlertDialogUtils.showProgressDialog(mySelf, "删除中，请稍等...");
-                        OkHttpHelper.doGet(UrlUtils.getDelOrder(listDate.get(position).getOrderNo()), new Callback() {
+                        OkHttpHelper.doGet(UrlUtils.getDelOrder(listDate.get(position).getId()), new Callback() {
                             @Override
                             public void onFailure(Call call, IOException e) {
                                 runOnUiThread(new Runnable() {
@@ -183,11 +173,10 @@ public class ShowTjDataSimple extends BaseActivity {
 
 
     //获取账单信息
-    private void getOrders() {
+    private void getShinfos() {
         SweetAlertDialogUtils.showProgressDialog(mySelf, "读取中，请稍候...");
         Map map = new HashMap();
-        map.put("orderCondition", new Gson().toJson(conditionBean));
-        OkHttpHelper.doPost(UrlUtils.getGetOrdersUrlPost(), map, new Callback() {
+        OkHttpHelper.doPost(UrlUtils.getGetShinfosUrlPost(), map, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 runOnUiThread(new Runnable() {
@@ -202,13 +191,13 @@ public class ShowTjDataSimple extends BaseActivity {
             @Override
             public void onResponse(Call call, Response response) throws IOException {
                 String result = response.body().string();
-                final List<OrderInfoBean> list = new Gson().fromJson(result, new TypeToken<List<OrderInfoBean>>() {
+                final List<ShinfoBean> list = new Gson().fromJson(result, new TypeToken<List<ShinfoBean>>() {
                 }.getType());
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         listDate.clear();
-                        for (OrderInfoBean bean1 : list) {
+                        for (ShinfoBean bean1 : list) {
                             listDate.add(bean1);
                         }
                         adapter.notifyDataSetChanged();
@@ -223,6 +212,7 @@ public class ShowTjDataSimple extends BaseActivity {
     }
 
 
+    //顶部监听
     @OnClick({R.id.top_rl_left, R.id.top_ib_left, R.id.top_rl_right, R.id.top_btn_right, R.id.top_tv_title})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -232,13 +222,46 @@ public class ShowTjDataSimple extends BaseActivity {
                 break;
             case R.id.top_rl_right:
             case R.id.top_btn_right:
-                selectDate();
+//                selectDate();
                 break;
             case R.id.top_tv_title:
-                selectCom();
+//                selectCom();
+                if (llCondition.getVisibility() == View.VISIBLE) {
+                    llCondition.setVisibility(View.GONE);
+                } else {
+                    llCondition.setVisibility(View.VISIBLE);
+                }
                 break;
         }
     }
+
+    //搜索条件监听
+    @OnClick({R.id.btn_com, R.id.btn_arrange})
+    public void onViewClicked2(View view) {
+        switch (view.getId()) {
+            case R.id.btn_com:
+                selectCom();
+                break;
+            case R.id.btn_arrange:
+                changeArrange();
+                break;
+        }
+    }
+
+    //排序方式
+    private void changeArrange() {
+        listDataTem.clear();
+        for (ShinfoBean bean : listDate) {
+            listDataTem.add(bean);
+        }
+        listDate.clear();
+        for (int i = listDataTem.size() - 1; i >= 0; i--) {
+            listDate.add(listDataTem.get(i));
+        }
+        adapter.notifyDataSetChanged();
+
+    }
+
 
     //选择厂名
     private void selectCom() {
@@ -257,7 +280,8 @@ public class ShowTjDataSimple extends BaseActivity {
                             conditionBean.setCom(text + "");
                         }
                         topTvTitle.setText(text + "");
-                        getOrders();
+                        getShinfos();
+
                         return true;
                     }
                 })
@@ -265,22 +289,21 @@ public class ShowTjDataSimple extends BaseActivity {
                 .show();
     }
 
-    //选择日期
-    private void selectDate() {
-        new PickerUtils().onYearMonthPicker(mySelf, new PickerListener.onYearMonthListener() {
-            @Override
-            public void onYearMonthListener(final String year, final String month) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        String selectMonth = year + "-" + DateUtils.format2(month);
-                        topBtnRight.setText(selectMonth);
-                        conditionBean.setShrqStart(selectMonth);
-                        conditionBean.setShrqEnd(selectMonth + "-31");
-                        getOrders();
-                    }
-                });
-            }
-        });
+    private void filterCom(int mode){
+
     }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (resultCode == 1) {
+//                refreshAll();
+                getShinfos();
+            }
+        }
+    }
+
+
 }

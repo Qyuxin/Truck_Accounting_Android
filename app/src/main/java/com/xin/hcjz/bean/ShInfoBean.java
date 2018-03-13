@@ -2,7 +2,7 @@ package com.xin.hcjz.bean;
 
 import java.io.Serializable;
 
-public class ShInfoBean implements Serializable {
+public class ShinfoBean implements Serializable {
     private static final long serialVersionUID = 1L;
     private String id;//id
     private String com;//公司名称

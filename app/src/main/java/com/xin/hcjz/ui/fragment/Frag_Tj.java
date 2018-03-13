@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.xin.hcjz.R;
+import com.xin.hcjz.ui.activity.AddShinfoActivity;
 import com.xin.hcjz.ui.activity.ShowTjData;
-import com.xin.hcjz.ui.activity.ShowTjDataSimple;
 import com.xin.hcjz.ui.base.BaseFragment;
 import com.xin.hcjz.utils.uiutils.intent.IntentUtils;
 
@@ -45,6 +45,7 @@ public class Frag_Tj extends BaseFragment {
     }
 
 
+    //统计
     @OnClick({R.id.ll_tj_all, R.id.ll_tj_curMonth, R.id.ll_tj_shengshi})
     public void onViewClicked(View view) {
         Bundle bundle = new Bundle();
@@ -55,12 +56,30 @@ public class Frag_Tj extends BaseFragment {
                 break;
             case R.id.ll_tj_curMonth:
                 bundle.putString("month", "cur");
-                IntentUtils.gotoNext(mySelf, ShowTjDataSimple.class, bundle);
+                IntentUtils.gotoNext(mySelf, ShowTjData.class, bundle);
                 break;
             case R.id.ll_tj_shengshi:
                 bundle.putString("month", "cur");
                 bundle.putString("com", "盛世");
-                IntentUtils.gotoNext(mySelf, ShowTjDataSimple.class, bundle);
+                IntentUtils.gotoNext(mySelf, ShowTjData.class, bundle);
+                break;
+        }
+    }
+    //预留信息管理
+    @OnClick({R.id.ll_add_shinfo, R.id.ll_show_shinfo})
+    public void onViewClicked2(View view) {
+        Bundle bundle = new Bundle();
+        switch (view.getId()) {
+            case R.id.ll_add_shinfo:
+                IntentUtils.gotoNext(mySelf, AddShinfoActivity.class);
+                break;
+            case R.id.ll_show_shinfo:
+                IntentUtils.gotoNext(mySelf, ShowTjData.class, bundle);
+                break;
+            case R.id.ll_tj_shengshi:
+                bundle.putString("month", "cur");
+                bundle.putString("com", "盛世");
+                IntentUtils.gotoNext(mySelf, ShowTjData.class, bundle);
                 break;
         }
     }

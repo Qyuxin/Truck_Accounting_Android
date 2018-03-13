@@ -197,6 +197,135 @@
 
                 </LinearLayout>
             </LinearLayout>
+            <LinearLayout
+                style="@style/index_program_ll_all">
+
+                <LinearLayout
+                    style="@style/index_program_ll_title">
+
+                    <View
+                        style="@style/index_program_title_left_view" />
+
+                    <TextView
+                        style="@style/index_program_title_text"
+                        android:text="预留信息管理" />
+
+                </LinearLayout>
+
+                <View
+                    style="@style/index_program_title_bottom_view" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:id="@+id/ll_add_shinfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="#ffffff"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="20dp"
+                                android:src="@drawable/personal_change_pwd" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="0.44"
+                                android:gravity="center_vertical"
+                                android:text="添加预留信息"
+                                android:textColor="#646464"
+                                android:textSize="20sp" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:src="@drawable/back2" />
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/white"
+                        >
+                        <View style="@style/personal_line" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:orientation="horizontal">
+
+
+                        <LinearLayout
+                            android:id="@+id/ll_show_shinfo"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:background="#ffffff"
+                            android:orientation="horizontal">
+
+                            <ImageView
+                                android:layout_width="30dp"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center_vertical"
+                                android:layout_marginLeft="20dp"
+                                android:src="@drawable/personal_change_pwd" />
+
+                            <TextView
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="10dp"
+                                android:layout_weight="0.44"
+                                android:gravity="center_vertical"
+                                android:text="查看预留信息"
+                                android:textColor="#646464"
+                                android:textSize="20sp" />
+
+                            <ImageView
+                                android:layout_width="match_parent"
+                                android:layout_height="30dp"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:src="@drawable/back2" />
+
+                        </LinearLayout>
+
+
+
+                    </LinearLayout>
+
+
+
+
+
+
+                </LinearLayout>
+            </LinearLayout>
 
 
         </LinearLayout>

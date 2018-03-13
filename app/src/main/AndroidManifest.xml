@@ -22,8 +22,9 @@
         <activity android:name=".ui.activity.MainActivity">
         </activity>
         <activity android:name=".ui.activity.AddOrderActivity"></activity>
+        <activity android:name=".ui.activity.ShowTjData_NoUse"></activity>
         <activity android:name=".ui.activity.ShowTjData"></activity>
-        <activity android:name=".ui.activity.ShowTjDataSimple"></activity>
+        <activity android:name=".ui.activity.AddShinfoActivity"></activity>
     </application>
 
 </manifest>
